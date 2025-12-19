@@ -848,4 +848,4 @@ print(f"📊 最优聚类数: {optimal_k}类 (轮廓系数: {max(sil_scores):.3f
 print(f"🏙️ 聚类结果:")
 for cluster in cluster_summary:
     print(f"  • {cluster['类别名称']}: {cluster['城市数量']}个城市")
-print(f"📊 判别分析准确率: {accuracy:.1%}") if 'accuracy' in locals() else None
+print(f"📊 判别分析准确率: {accuracy:.1%}")
