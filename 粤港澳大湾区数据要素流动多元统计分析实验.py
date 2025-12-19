@@ -230,7 +230,6 @@ kmo_bartlett_result.to_csv('KMO_Bartlett检验结果.csv', index=False, encoding
 print("\nKMO与Bartlett检验结果已保存至: KMO_Bartlett检验结果.csv")
 
 print("\n2. 生成图4: PCA方差解释率图")
-
 plt.figure(figsize=(10, 8))
 
 pca_vars = factor_vars  # 使用相同的变量
@@ -308,10 +307,8 @@ pca_details_df = pd.DataFrame({
 })
 
 print(pca_details_df.round(3).to_string(index=False))
-
-# 同时，保存到CSV文件以便论文直接引用
 pca_details_df.to_csv('PCA_特征值与贡献率_精确表.csv', index=False, encoding='utf-8-sig')
-print("\n✅ 精确PCA结果已保存至: PCA_特征值与贡献率_精确表.csv")
+
 
 n_components_to_show = 3
 print(f"\n前{n_components_to_show}个主成分的详细情况:")
@@ -409,13 +406,9 @@ try:
 except Exception as e:
     print(f"因子分析出错: {e}")
 
-print("\n========================================")
-print("           第七章：聚类与分类分析          ")
-print("========================================\n")
 
 print("\n1. 生成图7.1: 轮廓系数确定最优聚类数")
 plt.figure(figsize=(10, 6))
-
 # 使用PCA结果进行聚类
 X_cluster = pca_result[:, :2]  # 使用前两个主成分
 
@@ -455,13 +448,10 @@ kmeans = KMeans(n_clusters=optimal_k, random_state=42, n_init=10)
 df_2023['聚类标签'] = kmeans.fit_predict(X_cluster)
 
 
-# 为每个聚类类别命名（基于实际结果）
 def get_cluster_name(cluster_id, cities):
-    """根据城市组成自动命名聚类"""
     if cluster_id == 0:
         return "外围发展型"
     elif cluster_id == 1:
-        # 检查是否只有深圳
         if cities == ['深圳']:
             return "创新引领型"
         else:
@@ -473,11 +463,8 @@ def get_cluster_name(cluster_id, cities):
             return f"类别{cluster_id}"
     else:
         return f"类别{cluster_id}"
-
-
 # 绘制聚类结果
 colors = plt.cm.Set3(np.linspace(0, 1, optimal_k))
-
 # 获取每个聚类的城市列表
 cluster_cities_map = {}
 for cluster_id in range(optimal_k):
@@ -538,7 +525,6 @@ cluster_df = pd.DataFrame(cluster_summary)
 cluster_df.to_csv('聚类分析结果.csv', index=False, encoding='utf-8-sig')
 print("\n聚类分析结果已保存至: 聚类分析结果.csv")
 
-# ================== 修正：生成三类的特征对比表 ==================
 print("\n3. 生成表7.1: 聚类类别关键指标对比分析")
 
 # 计算各类别均值对比
@@ -857,39 +843,9 @@ plt.show()
 
 # 保存详细分析结果
 df_2023.to_csv('大湾区数据要素分析结果_2023.csv', index=False, encoding='utf-8-sig')
-
 print(f"\n详细分析结果已保存至: 大湾区数据要素分析结果_2023.csv")
-
-print("\n" + "=" * 60)
-print("                 第七章分析结果总结                ")
-print("=" * 60)
 print(f"📊 最优聚类数: {optimal_k}类 (轮廓系数: {max(sil_scores):.3f})")
 print(f"🏙️ 聚类结果:")
 for cluster in cluster_summary:
     print(f"  • {cluster['类别名称']}: {cluster['城市数量']}个城市")
 print(f"📊 判别分析准确率: {accuracy:.1%}") if 'accuracy' in locals() else None
-print("=" * 60)
-
-print("\n✅ 生成的关键文件列表:")
-print("  1. 相关性矩阵.csv")
-print("  2. 偏相关分析结果.csv")
-print("  3. KMO_Bartlett检验结果.csv")
-print("  4. PCA_特征值与贡献率_精确表.csv")
-print("  5. 主成分载荷矩阵.csv")
-print("  6. 聚类分析结果.csv")
-print("  7. 聚类类别特征对比表.csv")
-print("  8. 判别分析结果.csv")
-print("  9. 复合年增长率分析.csv")
-print("  10. 大湾区数据要素分析结果_2023.csv")
-
-print("\n✅ 生成的关键图表列表:")
-print("  1. 图1_跨境数据传输趋势.png")
-print("  2. 图2_各城市研发投入对比.png")
-print("  3. 图3_相关性热力图.png")
-print("  4. 图4_PCA方差解释率.png")
-print("  5. 图5_PCA散点图.png")
-print("  6. 图6_Kmeans聚类结果.png")
-print("  7. 图7.1_轮廓系数确定最优聚类数.png")
-print("  8. 图7.3_多类城市群动态演化.png")
-print("  9. 图9_复合年增长率分析.png")
-print("  10. 图10_发展路径图.png")
